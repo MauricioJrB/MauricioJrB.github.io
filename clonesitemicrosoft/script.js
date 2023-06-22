@@ -1,165 +1,159 @@
-const botaoNovoItem = document.querySelector('.box-adicionar-item');
+const botaoNovoItem = document.querySelector('.box-adicionar-item'); 
 const dialogNovoItem = document.querySelector('.dialog-novo-item');
 const botaoFecharDialog= document.querySelector('.btn-dialog-fechar');
 const botaoAdicionar = document.querySelector('.btn-dialog-adicionar');
 const dialogEditarItem = document.querySelector('.dialog-editar-item');
 const botaoFecharDialogEditar = document.querySelector('.btn-dialog-fechar-editar');
 const botaoEditar = document.querySelector('.btn-dialog-editar');
-const botaoAbrirBing = document.querySelector('.btn-abrir-bing');
-var publicacoes = [];
-var indiceEditar;
+const botaoAbrirBing = document.querySelector('.btn-abrir-bing'); 
+var publicacoes = []; 
+var indiceEditar; 
 
-botaoAbrirBing.addEventListener('click', function() {
+botaoAbrirBing.addEventListener('click', function(){
     window.open('https://www.bing.com/new?icid=mscom_marcom_H1a_BingAI');
 });
-//Metodo Contrutor
-function novaPublicacao(id, titulo, descricao, link) {
-    this.id = id;
-    this.titulo = titulo;
-    this.descricao = descricao;
-    this.link = link;
+
+function novaPublicacao(id, titulo, descricao, link){
+    this.id = id; 
+    this.titulo = titulo; 
+    this.descricao = descricao; 
+    this.link = link; 
 }
-//API do navegador, verifica se existe
-if(!localStorage.id) {
-    localStorage.id = 0;
+
+if(!localStorage.id){
+    localStorage.id = 0; 
 }
-//Verifica o conteudo no armazenamento da pagina e faz uma conversao para a variavel publicacoes 
-if(localStorage.conteudoPagina) {
+
+if(localStorage.conteudoPagina){
     publicacoes = JSON.parse(localStorage.getItem('conteudoPagina'));
     mostrarConteudo();
 }
 
-//Eventos
-botaoNovoItem.addEventListener('click', function() {
-    dialogNovoItem.className = 'dialog-novo-item-show';
-});
+botaoNovoItem.addEventListener('click', function(){
+    dialogNovoItem.className = 'dialog-novo-item-show'; 
+}); 
 
-botaoFecharDialog.addEventListener('click', function() {
+botaoFecharDialog.addEventListener('click', function(){
     dialogNovoItem.className = 'dialog-novo-item';
     location.reload();
-});
+}); 
 
-botaoFecharDialogEditar.addEventListener('click', function() {
+botaoFecharDialogEditar.addEventListener('click', function(){
     dialogEditarItem.className = 'dialog-editar-item';
-});
+}); 
 
-const titulo = document.querySelector('.input-titulo');
-const descricao = document.querySelector('.input-descricao');
-const link = document.querySelector('.input-link');
+const titulo = document.querySelector('.input-titulo'); 
+const descricao = document.querySelector('.input-descricao'); 
+const link = document.querySelector('.input-link'); 
 
-titulo.addEventListener('input', function() {
-    if(titulo.value.length < 4) {
-        document.querySelector('.resultado-adicionar').innerHTML = "O Título deve conter no mínimo 4 caracteres!";
-    }
-    else {
+titulo.addEventListener('input', function(){
+    if(titulo.value.length < 4){
+        document.querySelector('.resultado-adicionar').innerHTML = "O título deve conter no minimo 4 caracteres!";
+    }else{
         document.querySelector('.resultado-adicionar').innerHTML = "";
     }
 });
 
-descricao.addEventListener('input', function() {
-    if(descricao.value.length < 10) {
-        document.querySelector('.resultado-adicionar').innerHTML = "A Descrição deve conter no mínimo 10 caracteres!";
-    }
-    else {
+descricao.addEventListener('input', function(){
+    if(descricao.value.length < 10){
+        document.querySelector('.resultado-adicionar').innerHTML = "A descrição deve conter no minimo 10 caracteres!";
+    }else{
         document.querySelector('.resultado-adicionar').innerHTML = "";
     }
 });
 
-link.addEventListener('input', function() {
-    if(!link.value.includes("http")) {
+link.addEventListener('input', function(){
+    if(!link.value.includes("http")){
         document.querySelector('.resultado-adicionar').innerHTML = "Informe um link válido!";
-    }
-    else {
+    }else{
         document.querySelector('.resultado-adicionar').innerHTML = "";
     }
 });
 
-class Funcionalidades {
+class Funcionalidades{
     constructor(){}
 
     adicionar() {
-        if(titulo.value.length >= 4 && descricao.value.length >= 10 && link.value.includes('http')) {
-            let lista = document.querySelector('.lista-conteudo');
-            let publicacao = new novaPublicacao(localStorage.getItem('id'), titulo.value, descricao.value, link.value);
-            
-            if(localStorage.conteudoPagina) {
-                publicacoes = JSON.parse(localStorage.getItem('conteudoPagina'));
+        if(titulo.value.length >= 4 && descricao.value.length >= 10 && link.value.includes("http")){
+            let lista = document.querySelector('.lista-conteudo'); 
+            let publicacao = new novaPublicacao(localStorage.getItem('id'), titulo.value, descricao.value, link.value); 
+    
+            if(localStorage.conteudoPagina){
+                publicacoes = JSON.parse(localStorage.getItem('conteudoPagina')); 
             }
-            //Adiciona elementos no final do array
+    
             publicacoes.push(publicacao);
-            localStorage.conteudoPagina = JSON.stringify(publicacoes); //Converte um objeto de js para String em JSON
-            document.querySelector('.resultado-adicionar').innerHTML = "Novo Item adicionado com sucesso!";
+            localStorage.conteudoPagina = JSON.stringify(publicacoes); 
+            document.querySelector('.resultado-adicionar').innerHTML = "Novo item adicionado com sucesso!"; 
             setTimeout(() => {
-            document.querySelector('.resultado-adicionar').innerHTML = ""}, 1500);
-
+                document.querySelector('.resultado-adicionar').innerHTML = ""; 
+            }, 1500);
+            
             let item = document.createElement("div");
-            let idLi = document.createElement("p");
+            let idLi = document.createElement("p"); 
             let tituloLi = document.createElement("label");
-            let descricaoLi = document.createElement("p");
-            let imagemLi = document.createElement("img");
-            let editar = document.createElement("button");
-            let excluir = document.createElement("button");
-
-            item.className = "item";
+            let descricaoLi = document.createElement("p"); 
+            let imagemLi = document.createElement("img"); 
+            let editar = document.createElement("button"); 
+            let excluir = document.createElement("button"); 
+            item.className = "item"; 
             idLi.innerHTML = publicacao.id;
-            tituloLi.innerHTML = publicacao.titulo;
+            tituloLi.innerHTML = publicacao.titulo; 
             descricaoLi.innerHTML = publicacao.descricao;
-            editar.innerHTML = "Editar";
-            editar.className = "btn-editar";
-            excluir.innerHTML = "Excluir";
-            imagemLi.src = publicacao.link;
-
+            editar.innerHTML = "Editar"; 
+            editar.className = "btn-editar";  
+            excluir.innerHTML = "Excluir";  
+            excluir.className = "btn-excluir";  
+            imagemLi.src = publicacao.link; 
             item.appendChild(idLi);
-            item.appendChild(imagemLi);
-            item.appendChild(tituloLi);
-            item.appendChild(descricaoLi);
-            item.appendChild(editar);
-            item.appendChild(excluir);
+            item.appendChild(imagemLi); 
+            item.appendChild(tituloLi); 
+            item.appendChild(descricaoLi); 
+            item.appendChild(editar); 
+            item.appendChild(excluir); 
             lista.appendChild(item);
-
-            let contador = parseInt(localStorage.getItem('id'));
-            contador ++;
-            localStorage.setItem('id', contador);
-        }
-        else {
-            document.querySelector('.resultado-adicionar').innerHTML = "Preencha todos os campos e tente novamente!";
+            
+            let contador = parseInt(localStorage.getItem('id')); 
+            contador++; 
+            localStorage.setItem('id', contador); 
+        } else{
+            document.querySelector('.resultado-adicionar').innerHTML = "Preencha todos os campos e tente novamente!"; 
             setTimeout(() => {
-                document.querySelector('.resultado-adicionar').innerHTML = "";
+                document.querySelector('.resultado-adicionar').innerHTML = ""; 
             }, 1500);
         }
     }
 
-    carregarInformacoesEditar() {
+    carregarInformacoesEditar(){
         let botoes = document.querySelectorAll('.btn-editar');
-        let inputTitulo = document.querySelector('.input-titulo');
+        let inputTitulo = document.querySelector('.input-titulo-editar');
         let inputDescricao = document.querySelector('.input-descricao-editar');
         let inputLink = document.querySelector('.input-link-editar');
-
-        for(let i = 0; i < botoes.length; i++) {
+        for (let i = 0; i < botoes.length; i++) {
             botoes[i].addEventListener('click', () => {
-                indiceEditar = i;
+                indiceEditar = i; 
                 inputTitulo.value = publicacoes[indiceEditar].titulo;
                 inputDescricao.value = publicacoes[indiceEditar].descricao;
                 inputLink.value = publicacoes[indiceEditar].link;
-                dialogEditarItem.className = "dialog-editar-item-show";
+                dialogEditarItem.className = "dialog-editar-item-show"; 
             });
         }
     }
 
-    editar() {
-        if(inputTituloEditar.value.length >= 4 && inputDescricaoEditar.value.length >= 10 && inputLinkEditar.value.includes("http")) {
+    editar(){
+        if(inputTituloEditar.value.length >= 4 && inputDescricaoEditar.value.length >= 10 
+            && inputLinkEditar.value.includes("http")){
 
-            publicacoes[indiceEditar].titulo = inputTituloEditar.value;
-            publicacoes[indiceEditar].descricao = inputDescricaoEditar.value;
-            publicacoes[indiceEditar].link = inputLinkEditar.value;
-
-            localStorage.conteudoPagina = JSON.stringify(publicacoes);
-            location.reload();
-        }
-        else {
-            document.querySelector('.resultado-editar').innerHTML = "Verifique todos os campos e tente novamente!";
+        publicacoes[indiceEditar].titulo = inputTituloEditar.value; 
+        publicacoes[indiceEditar].descricao = inputDescricaoEditar.value; 
+        publicacoes[indiceEditar].link = inputLinkEditar.value;
+    
+        localStorage.conteudoPagina = JSON.stringify(publicacoes); 
+        location.reload(); 
+        }else{
+            document.querySelector('.resultado-editar').innerHTML = "Verifique todos os campos e tente novamente!"; 
             setTimeout(() => {
-                document.querySelector('.resultado-editar').innerHTML = "";
+                document.querySelector('.resultado-editar').innerHTML = ""; 
             }, 1500);
         }
     }
@@ -177,28 +171,26 @@ class Funcionalidades {
         }
     }
 
-    pesquisar() {
-        if(inputBusca.value != "") {
-            for(let item of itens) {
-                let titulo = item.querySelector('label').innerHTML.toLowerCase();
-                let pesquisa = inputBusca.value.toLowerCase();
-                if(!titulo.includes(pesquisa)) {
-                    item.style.display = "none";
-                }
-                else {
-                    item.style.display = "block";
+    pesquisar(){
+        if(inputBusca.value != ""){
+            for(let item of itens){
+                let titulo = item.querySelector('label').innerHTML.toLowerCase(); 
+                let pesquisa = inputBusca.value.toLowerCase(); 
+                if(!titulo.includes(pesquisa)){
+                    item.style.display = "none"; 
+                } else{
+                    item.style.display = "block"; 
                 }
             }
-        }
-        else {
-            for(let item of itens) {
-                item.style.display = "block";
+        } else{
+            for(let item of itens){
+                item.style.display = "block"; 
             }
         }
     }
 }
 
-var funcionalidades = new Funcionalidades();
+var funcionalidades = new Funcionalidades(); 
 
 botaoAdicionar.addEventListener('click', funcionalidades.adicionar);
 
@@ -206,66 +198,62 @@ document.addEventListener('DOMContentLoaded', funcionalidades.carregarInformacoe
 
 const inputTituloEditar = document.querySelector('.input-titulo-editar');
 const inputDescricaoEditar = document.querySelector('.input-descricao-editar');
-const inputLinkEditar = document.querySelector('.input-link-editar');
+const inputLinkEditar = document.querySelector('.input-link-editar'); 
 
-inputTituloEditar.addEventListener('input', function() {
-    if(inputTituloEditar.value.length < 4) {
-        document.querySelector('.resultado-editar').innerHTML = "O título deve conter no mínimo 4 caracteres!";
-    }
-    else {
+inputTituloEditar.addEventListener('input', function(){
+    if(inputTituloEditar.value.length < 4){
+        document.querySelector('.resultado-editar').innerHTML = "O título deve conter no minimo 4 caracteres!";
+    }else{
         document.querySelector('.resultado-editar').innerHTML = "";
     }
 });
 
-inputDescricaoEditar.addEventListener('.input', function() {
-    if(inputDescricaoEditar.value.length < 10) {
-        document.querySelector('.resultado-editar').innerHTML = "A descrição deve conter no mínimo 10 caracteres!";
-    }
-    else {
-        document.querySelector('resultado-editar').innerHTML = "";
+inputDescricaoEditar.addEventListener('input', function(){
+    if(inputDescricaoEditar.value.length < 10){
+        document.querySelector('.resultado-editar').innerHTML = "A descrição deve conter no minimo 10 caracteres!";
+    }else{
+        document.querySelector('.resultado-editar').innerHTML = "";
     }
 });
 
-inputLinkEditar.addEventListener('input', function() {
-    if(!inputLinkEditar.value.includes("http")) {
+inputLinkEditar.addEventListener('input', function(){
+    if(!inputLinkEditar.value.includes("http")){
         document.querySelector('.resultado-editar').innerHTML = "Informe um link válido!";
-    }
-    else {
+    }else{
         document.querySelector('.resultado-editar').innerHTML = "";
     }
 });
 
-botaoEditar.addEventListener('click', funcionalidades.editar);
+botaoEditar.addEventListener('click', funcionalidades.editar); 
 
 document.addEventListener('DOMContentLoaded', funcionalidades.excluir);
 
-function mostrarConteudo() {
-    for(let i = 0; i < publicacoes.length; i++) {
-        let lista = document.querySelector('.lista-conteudo');
-        let idLi = document.createElement("p");
+function mostrarConteudo(){
+    for(let i=0; i<publicacoes.length; i++){
+        let lista = document.querySelector('.lista-conteudo'); 
+        let idLi = document.createElement("p"); 
         let item = document.createElement("div");
         let tituloLi = document.createElement("label");
-        let descricaoLi = document.createElement("p");
-        let imagemLi = document.createElement("img");
-        let editar = document.createElement("button");
-        let excluir = document.createElement("button");
-
-        item.className = "item";
+        let descricaoLi = document.createElement("p"); 
+        let imagemLi = document.createElement("img"); 
+        let editar = document.createElement("button"); 
+        let excluir = document.createElement("button"); 
+        item.className = "item"; 
         idLi.innerHTML = publicacoes[i].id;
-        tituloLi.innerHTML = publicacoes[i].titulo;
+        tituloLi.innerHTML = publicacoes[i].titulo; 
         descricaoLi.innerHTML = publicacoes[i].descricao;
-        editar.innerHTML = "Editar";
-        editar.className = "btn-editar";
-        excluir.innerHTML = "Excluir";
-        excluir.className = "btn-excluir";
-        imagemLi.src = publicacoes[i].link;
+        editar.innerHTML = "Editar "; 
+        editar.className = "btn-editar"; 
+        excluir.innerHTML = "Excluir";  
+        excluir.className = "btn-excluir"; 
+        imagemLi.src = publicacoes[i].link; 
         item.appendChild(idLi);
-        item.appendChild(imagemLi);
-        item.appendChild(tituloLi);
-        item.appendChild(descricaoLi);
-        item.appendChild(editar);
-        item.appendChild(excluir);
-        lista.appendChild(item);
+        item.appendChild(imagemLi); 
+        item.appendChild(tituloLi); 
+        item.appendChild(descricaoLi); 
+        item.appendChild(editar); 
+        item.appendChild(excluir); 
+        lista.appendChild(item); 
     }
 }
 
@@ -292,6 +280,6 @@ cancelarPesquisa.addEventListener('click', function(){
     for(let item of itens){
         item.style.display = "block"; 
     }
-});
+})
 
 inputBusca.addEventListener('input', funcionalidades.pesquisar); 
